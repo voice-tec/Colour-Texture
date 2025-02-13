@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Colour Texture</title>
+</head>
+<body>
+  <div class="search-bar">
+    <input type="text" id="searchBox" placeholder="Cerca una texture..." onkeyup="filterImages()">
+  </div>
+  <div class="container">
+    <script>
+      const images = [
+        { src: "graffiato.jpg", name: "Graffiato T19" },
+        { src: "nova.jpg", name: "Nova T1" },
+        { src: "piuma.jpg", name: "Piuma T14" },
+        { src: "charro.jpg", name: "Charro T10" },
+        { src: "nilo.jpg", name: "Nilo T18" },
+        { src: "sacco.jpg", name: "Sacco T7" },
+        { src: "beehive.jpg", name: "Beehive T9" },
+        { src: "fiorato.jpg", name: "Fiorato T11" },
+        { src: "piel.jpg", name: "Piel T33" },
+        { src: "intrecciato.jpg", name: "Intrecciato T20" },
+        { src: "effettotessuto.jpg", name: "Effetto tessuto T17" },
+        { src: "atelierveneto.jpg", name: "Atelier Veneto T8" },
+        { src: "doghe.jpg", name: "Doghe T31" },
+        { src: "dadone.jpg", name: "Dadone T23" },
+        { src: "rigatoni.jpg", name: "Rigatoni T30" },
+        { src: "vuiton.jpg", name: "Vuiton T16" },
+        { src: "diamantino.jpg", name: "Diamantino T5" },
+        { src: "muro.jpg", name: "Muro T15" },
+        { src: "loop.jpg", name: "Loop T2" },
+        { src: "giglio.jpg", name: "Giglio T13" },
+        { src: "ilone.jpg", name: "Ilone T37" },
+        { src: "italianplank.jpg", name: "Italian plank T6" },
+        { src: "cactus.jpg", name: "Cactus T3" },
+        { src: "juta.jpg", name: "Juta T12" }
+      ];
+
+      const colors = [
+        { hex: "#8D897F", name: "Beige 201" },
+        { hex: "#552917", name: "Bordeaux 040" },
+        { hex: "#B29B6E", name: "Beige 0196" },
+        { hex: "#7A6138", name: "Beige 080" },
+        { hex: "#FFFFFF", name: "Bianco 001" },
+        { hex: "#2A251C", name: "Nero 32 ON" },
+        { hex: "#2F4845", name: "Verde 613" },
+        { hex: "#B6B1A4", name: "Beige 0173" },
+        { hex: "#909291", name: "Grigio 32 SG" },
+        { hex: "#D3D4D1", name: "Grigio chiaro 32 U" },
+        { hex: "#323535", name: "Grigio 620" },
+        { hex: "#5A5B5C", name: "Grigio scuro 32 TA" },
+        { hex: "#362C29", name: "Mokka 016" },
+        { hex: "#333331", name: "Grigio 476" }
+      ];
+
+      function generatePanels() {
+        const container = document.querySelector('.container');
+        images.forEach((image, index) => {
+          const panelId = `panel${index + 1}`;
+          const overlayId = `overlay-${panelId}`;
+          const panel = document.createElement('div');
+          panel.className = 'panel';
+          panel.dataset.name = image.name.toLowerCase();
+          panel.innerHTML = `
+            <h2>${image.name}</h2>
+            <div class="image-container">
+              <img id="${panelId}" src="images/${image.src}" alt="${image.name}">
+              <div class="overlay" id="${overlayId}" style="background-color: #FFFFFF; opacity: 0.90;"></div>
+            </div>
+            <div class="buttons">
+              ${colors.map((color) => `
+                <button style="background-color: ${color.hex}" onclick="applyColorOverlay('${panelId}', '${color.hex}', '${color.name}')">
+                </button>
+              `).join('')}
+            </div>
+            <div class="color-indicator" id="colorIndicator-${panelId}">
+              <span class="color-name">Bianco 001</span>
+            </div>
+          `;
+          container.appendChild(panel);
+        });
+      }
+
+      function applyColorOverlay(imageId, color, colorName) {
+        const overlay = document.getElementById(`overlay-${imageId}`);
+        const colorIndicator = document.getElementById(`colorIndicator-${imageId}`);
+        overlay.style.backgroundColor = color;
+        colorIndicator.querySelector('.color-name').textContent = colorName;
+        overlay.style.opacity = '0.90';
+      }
+
+      function resetOverlay(imageId) {
+        const overlay = document.getElementById(`overlay-${imageId}`);
+        const colorIndicator = document.getElementById(`colorIndicator-${imageId}`);
+        overlay.style.backgroundColor = 'transparent';
+        colorIndicator.querySelector('.color-name').textContent = 'Nessun colore selezionato';
+      }
+
+      function filterImages() {
+        const query = document.getElementById('searchBox').value.toLowerCase();
+        document.querySelectorAll('.panel').forEach(panel => {
+          panel.style.display = panel.dataset.name.includes(query) ? "block" : "none";
+        });
+      }
+
+      window.onload = generatePanels;
+    </script>
+</body>
+</html>
