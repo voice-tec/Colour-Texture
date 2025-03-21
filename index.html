@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google" content="notranslate">
   <link rel="stylesheet" href="styles.css">
   <title>Colour Texture</title>
 </head>
@@ -65,9 +66,9 @@
           panel.className = 'panel';
           panel.dataset.name = image.name.toLowerCase();
           panel.innerHTML = `
-            <h2>${image.name}</h2>
+            <h2 translate="no">${image.name}</h2>
             <div class="image-container">
-              <img id="${panelId}" src="images/${image.src}" alt="${image.name}">
+              <img id="${panelId}" src="images/${image.src}" alt="${image.name}" translate="no">
               <div class="overlay" id="${overlayId}" style="background-color: #FFFFFF; opacity: 0.90;"></div>
             </div>
             <div class="buttons">
@@ -77,7 +78,7 @@
               `).join('')}
             </div>
             <div class="color-indicator" id="colorIndicator-${panelId}">
-              <span class="color-name">Bianco 001</span>
+              <span class="color-name" translate="no">Bianco 001</span>
             </div>
           `;
           container.appendChild(panel);
